@@ -7,29 +7,4 @@ couch_orcl: A CouchDB Client for Oracle PL/SQL
   I am holding a mirror of the latest release from sourceforge. Not SVN trunk.
   Latest tarball.
 
--- Will be implemented on Oracle object types.
-
--- How to user connection object: (assuming you loaded the objects into your 
-  oracle database and have a running couchdb instance on your localhost with
-  default port)
-  
-  set dbms_output on;
-  declare
-    conn cdb_connection;
-  begin
-    conn := cdb_connection(host     => '127.0.0.1', 
-                           port     => 5984,
-                           username => null
-                           password => null);
-    conn.print;
-    conn.test;
-  end;
-  /
-  
-  it should print the connection uri and something like this: 
-    {"couchdb":"Welcome", "version":"1.0.0"}
-  
--- TODO:
---- Connection through proxy servers will be implemented.
---- a document type will be implemented that can save, update, delete itself 
-    from a couchdb.
+-- Will be implemented on Oracle object types. 
