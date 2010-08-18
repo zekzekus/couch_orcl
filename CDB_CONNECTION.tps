@@ -28,8 +28,7 @@ CREATE OR REPLACE type ZEKUS.cdb_connection as object (
       conn.print;
       conn.test;
     end;
-    /
-    
+    /    
   */
   host          varchar2(256),
   port          number,
