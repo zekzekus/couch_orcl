@@ -1,4 +1,9 @@
 ﻿CREATE OR REPLACE package body ZEKUS.cdb_utl as
+  procedure p(p_msg in varchar2) is
+  begin
+    dbms_output.put_line(p_msg);
+  end p;
+  
   function make_request(
     p_uri           varchar2,
     p_method        varchar2,

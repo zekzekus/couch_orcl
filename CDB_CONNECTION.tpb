@@ -21,7 +21,7 @@
   
   member procedure print as
   begin
-    p(self.get_uri);
+    cdb_utl.p(self.get_uri);
   end print;
   
   member function get_uri return varchar2 as
@@ -31,7 +31,7 @@
   
   member procedure test as
   begin
-    p(cdb_utl.info(self.get_uri).to_char(false));
+    cdb_utl.p(cdb_utl.info(self.get_uri).to_char(false));
   end test;
 end;
 /

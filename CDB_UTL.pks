@@ -7,5 +7,7 @@
     return varchar2;
     
   function info(p_uri varchar2) return json;
+  
+  procedure p(p_msg in varchar2); 
 end cdb_utl;
 /
