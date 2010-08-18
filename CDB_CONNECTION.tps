@@ -1,4 +1,5 @@
-﻿/*
+﻿CREATE OR REPLACE type cdb_connection as object (
+/*
     This file is part of couch_orcl.
 
     couch_orcl is free software: you can redistribute it and/or modify
@@ -12,10 +13,10 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+    along with couch_orcl.  If not, see <http://www.gnu.org/licenses/>.
 */
-CREATE OR REPLACE type ZEKUS.cdb_connection as object (
-  /*
+
+/*
     connection object. it holds the host address, port, username and password
     of the couchdb database you want to connect. it can print the connection uri
     and test the connection to the specified database.
@@ -29,16 +30,19 @@ CREATE OR REPLACE type ZEKUS.cdb_connection as object (
       conn.test;
     end;
     /    
-  */
+*/
+
   host          varchar2(256),
   port          number,
   username      varchar2(256),
   password      varchar2(256),
   uri           varchar2(256),
+  db_name       varchar2(256),
   
   constructor function cdb_connection(
     host      varchar2,
     port      number,
+    db_name   varchar2,
     username  varchar2:=null,
     password  varchar2:=null) 
     return self as result,

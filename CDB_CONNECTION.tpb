@@ -1,4 +1,5 @@
-﻿/*
+﻿CREATE OR REPLACE type body cdb_connection as
+/*
     This file is part of couch_orcl.
 
     couch_orcl is free software: you can redistribute it and/or modify
@@ -12,13 +13,13 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+    along with couch_orcl.  If not, see <http://www.gnu.org/licenses/>.
 */
-CREATE OR REPLACE type body ZEKUS.cdb_connection as
 
   constructor function cdb_connection(
     host      varchar2,
     port      number,
+    db_name   varchar2,
     username  varchar2:=null,
     password  varchar2:=null) 
     return self as result as
@@ -27,6 +28,7 @@ CREATE OR REPLACE type body ZEKUS.cdb_connection as
     self.port     := port;
     self.username := username;
     self.password := password;
+    self.db_name  := db_name;
     if username is null then
       self.uri := 'http://'||host||':'||port||'/';
     else
@@ -47,7 +49,7 @@ CREATE OR REPLACE type body ZEKUS.cdb_connection as
   
   member procedure test as
   begin
-    cdb_utl.p(cdb_utl.info(self.get_uri).to_char(false));
+    cdb_utl.p(cdb_utl.server_info(self.get_uri).to_char(false));
   end test;
 end;
 /

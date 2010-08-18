@@ -1,4 +1,5 @@
-﻿/*
+﻿CREATE OR REPLACE package cdb_utl as
+/*
     This file is part of couch_orcl.
 
     couch_orcl is free software: you can redistribute it and/or modify
@@ -12,9 +13,9 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+    along with couch_orcl.  If not, see <http://www.gnu.org/licenses/>.
 */
-CREATE OR REPLACE package ZEKUS.cdb_utl as
+
   function make_request(
     p_uri           varchar2,
     p_method        varchar2,
@@ -22,7 +23,11 @@ CREATE OR REPLACE package ZEKUS.cdb_utl as
     p_body          varchar2 := null)
     return varchar2;
     
-  function info(p_uri varchar2) return json;
+  function server_info(p_uri varchar2) return json;
+  
+  function db_info(p_uri varchar2, p_db varchar2) return json;
+  
+  function get_uuid return varchar2;
   
   procedure p(p_msg in varchar2); 
 end cdb_utl;
