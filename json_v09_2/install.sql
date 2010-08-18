@@ -37,7 +37,7 @@ PROMPT -----------------------------------;
 PROMPT ------------------------------------------;
 PROMPT -- Adding optional packages for PL/JSON --;
 PROMPT -------------------------------------------;
---@@addons/json_dyn.sql --dynamic sql execute 
---@@addons/jsonml.sql --jsonml (xml to json)
---@@addons/json_xml.sql --json to xml copied from http://www.json.org/java/org/json/XML.java
---@@addons/json_util_pkg.sql --dynamic sql from http://ora-00001.blogspot.com/2010/02/ref-cursor-to-json.html
+@@addons/json_dyn.sql --dynamic sql execute 
+@@addons/jsonml.sql --jsonml (xml to json)
+@@addons/json_xml.sql --json to xml copied from http://www.json.org/java/org/json/XML.java
+@@addons/json_util_pkg.sql --dynamic sql from http://ora-00001.blogspot.com/2010/02/ref-cursor-to-json.html
