@@ -25,7 +25,11 @@
   
   member procedure set_id(id varchar2),
   member procedure set_rev(rev varchar2),
-      
+
+  member function print return varchar2,
+
+  member procedure print,      
   member procedure save
+  
 );
 /

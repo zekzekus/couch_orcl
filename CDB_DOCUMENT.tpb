@@ -45,6 +45,16 @@
     self.put('_rev', self.rev);
   end set_rev;
 
+  member function print return varchar2 is 
+  begin
+    return self.to_char(false);
+  end print;
+  
+  member procedure print is
+  begin
+    cdb_utl.p(self.print);  
+  end print;
+  
   member procedure save is
     v_res          varchar2(32767);
     j_res          json;
