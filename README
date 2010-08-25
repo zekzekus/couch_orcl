@@ -7,7 +7,8 @@ author      : Zekeriya KOC <zekzekus@gmail.com>
 -- For JSON operations it uses PL/JSON. It is really cool stuff.
   http://sourceforge.net/projects/pljson/ 
   I am holding a mirror of the latest release from sourceforge. Not SVN trunk.
-  Latest tarball.
+  Latest tarball. I had to made a very little modification to the original 
+  PL/JSON code.
 
 -- Will be implemented on Oracle object types. 
 
