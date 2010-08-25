@@ -123,7 +123,7 @@
        make_request(
         self.conn.get_uri(),
         'DELETE',
-        self.conn.db_name || '/' || self.id || '?rev' || self.rev);
+        self.conn.db_name || '/' || self.id || '?rev=' || self.rev);
     j_res       := json_parser.parser(v_res);
 
     begin
@@ -139,6 +139,8 @@
             'error: ' || j_res.get('reason').get_string());
         end if;
     end;
+
+    cdb_utl.p(j_res.to_char(false));
   end remove;
 end;
 /

@@ -18,20 +18,20 @@ begin
   conn.print();
 
   -- create a couchdb document based on json object. id parameter can be null
-  -- if so document will take its own random guuid.
+  -- if it is null, document will take its own random guuid.
   doc1        := cdb_document(conn => conn);
   doc2        := cdb_document(conn => conn, id => 'record001');
   doc1.put('name', 'zekeriya');
   doc1.put('surname', 'koc');
   doc1.put('age', 27);
   doc1.put('is_clever', true);
-  -- save document for the first time.
+  -- save document for the first time. (PUT request for first insert)
   doc1.save();
 
   -- modify document...
   doc1.put('hasan', 'mahmut');
   doc1.remove('is_clever');
-  -- save again
+  -- save again (posts an update request this time)
   doc1.save();
   
   doc2.put('test', 'for delete');
