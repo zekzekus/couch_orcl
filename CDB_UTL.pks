@@ -27,6 +27,10 @@
   
   function db_info(p_uri varchar2, p_db varchar2) return json;
   
+  function db_create(p_uri varchar2, p_name varchar2) return json;
+  
+  function db_delete(p_uri varchar2, p_name varchar2) return json;
+  
   function get_uuid return varchar2;
   
   procedure p(p_msg in varchar2); 

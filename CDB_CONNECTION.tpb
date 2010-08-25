@@ -49,7 +49,17 @@
   
   member procedure test as
   begin
-    cdb_utl.p(cdb_utl.server_info(self.get_uri).to_char(false));
+    cdb_utl.p(cdb_utl.server_info(self.get_uri()).to_char(false));
   end test;
+  
+  static procedure create_db(db_uri varchar2, db_name varchar2) as
+  begin
+    cdb_utl.p(cdb_utl.db_create(db_uri, db_name).to_char(false));
+  end create_db;
+  
+  static procedure delete_db(db_uri varchar2, db_name varchar2) as
+  begin
+    cdb_utl.p(cdb_utl.db_delete(db_uri, db_name).to_char(false));
+  end delete_db;  
 end;
 /

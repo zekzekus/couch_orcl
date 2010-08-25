@@ -64,5 +64,15 @@
   begin
     return json_parser.parser(make_request(p_uri, 'GET', p_db));
   end db_info;
+  
+  function db_create(p_uri varchar2, p_name varchar2) return json as
+  begin
+    return json_parser.parser(make_request(p_uri, 'PUT', p_name));
+  end db_create;
+  
+  function db_delete(p_uri varchar2, p_name varchar2) return json as
+  begin
+    return json_parser.parser(make_request(p_uri, 'DELETE', p_name));
+  end db_delete;  
 end cdb_utl;
 /

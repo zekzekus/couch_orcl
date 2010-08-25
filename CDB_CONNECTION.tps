@@ -50,7 +50,10 @@
   member procedure print,
   member procedure test,
   
-  member function get_uri return varchar2
+  member function get_uri return varchar2,
+  
+  static procedure create_db(db_uri varchar2, db_name varchar2),
+  static procedure delete_db(db_uri varchar2, db_name varchar2)
     
 );
 /

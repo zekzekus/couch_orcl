@@ -23,33 +23,54 @@
     self.check_for_duplicate := 1;
 
     if id is null then
-      self.id     := cdb_utl.get_uuid;
+      self.set_id(cdb_utl.get_uuid());
     else
-      self.id     := id;
+      self.set_id(id);
     end if;
 
     self.conn   := conn;
-    self.put('_id', self.id);
     return;
   end cdb_document;
+
+  member procedure set_id(id varchar2) is
+  begin
+    self.id     := id;
+    self.put('_id', self.id);
+  end set_id;
+
+  member procedure set_rev(rev varchar2) is
+  begin
+    self.rev    := rev;
+    self.remove('_rev');
+    self.put('_rev', self.rev);
+  end set_rev;
 
   member procedure save is
     v_res          varchar2(32767);
     j_res          json;
     j_val          json_value;
   begin
-    v_res       :=
-      cdb_utl.make_request(
-        self.conn.uri,
-        'POST',
-        self.conn.db_name,
-        self.to_char(false));
-     p(v_res);
---    j_res := json_parser.parser(v_res);
---    if j_res.get('ok').get_bool() then
---      self.rev := j_res.get('rev').get_string();
---      self.put('_rev', self.rev);
---    end if;
+    if self.rev is null then
+      v_res       :=
+        cdb_utl.make_request(
+          self.conn.get_uri(),
+          'POST',
+          self.conn.db_name,
+          self.to_char(false));
+    else
+      v_res       :=
+        cdb_utl.make_request(
+          self.conn.get_uri(),
+          'PUT',
+          self.conn.db_name || '/' || self.id,
+          self.to_char(false));
+    end if;
+    j_res       := json_parser.parser(v_res);
+
+    if j_res.get('ok').get_bool() then
+      self.set_rev(j_res.get('rev').get_string());
+    end if;
+    cdb_utl.p(v_res);
   end save;
 end;
 /
