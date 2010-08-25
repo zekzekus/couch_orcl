@@ -16,6 +16,8 @@
     along with couch_orcl.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+  subtype v2_max is varchar2(32767);
+
   function make_request(
     p_uri           varchar2,
     p_method        varchar2,

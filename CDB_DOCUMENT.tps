@@ -17,9 +17,11 @@
       along with couch_orcl.  If not, see <http://www.gnu.org/licenses/>.
   */
 
-  id varchar2(40),
-  rev varchar2(40),
-  conn cdb_connection,
+  id        varchar2(40),
+  rev       varchar2(40),
+  conn      cdb_connection,
+  deleted   number,
+  
   constructor function cdb_document(conn cdb_connection, id varchar2:=null)
     return self as result,
   
@@ -27,9 +29,11 @@
   member procedure set_rev(rev varchar2),
 
   member function print return varchar2,
+  member function is_deleted return boolean,
 
   member procedure print,      
-  member procedure save
+  member procedure save,
+  member procedure remove
   
 );
 /

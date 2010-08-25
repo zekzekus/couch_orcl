@@ -29,6 +29,7 @@
     end if;
 
     self.conn   := conn;
+    self.deleted := 0;
     return;
   end cdb_document;
 
@@ -45,21 +46,38 @@
     self.put('_rev', self.rev);
   end set_rev;
 
-  member function print return varchar2 is 
+  member function print
+    return varchar2 is
   begin
     return self.to_char(false);
   end print;
-  
+
   member procedure print is
   begin
-    cdb_utl.p(self.print);  
+    cdb_utl.p(self.print);
   end print;
-  
+
+  member function is_deleted
+    return boolean is
+  begin
+    if self.deleted = 1 then
+      return true;
+    else
+      return false;
+    end if;
+  end is_deleted;
+
   member procedure save is
-    v_res          varchar2(32767);
+    v_res          cdb_utl.v2_max;
     j_res          json;
     j_val          json_value;
   begin
+    if self.is_deleted() then
+      raise_application_error(
+        -20020,
+        'Document is deleted from database: ' || self.id);
+    end if;
+
     if self.rev is null then
       v_res       :=
         cdb_utl.make_request(
@@ -75,12 +93,52 @@
           self.conn.db_name || '/' || self.id,
           self.to_char(false));
     end if;
+
     j_res       := json_parser.parser(v_res);
 
     if j_res.get('ok').get_bool() then
       self.set_rev(j_res.get('rev').get_string());
     end if;
+
     cdb_utl.p(v_res);
   end save;
+
+  member procedure remove is
+    v_res          cdb_utl.v2_max;
+    j_res          json;
+    j_val          json_value;
+  begin
+    if self.is_deleted() then
+      raise_application_error(
+        -20030,
+        'Document is already deleted from database: ' || self.id);
+    end if;
+
+    if self.rev is null then
+      raise_application_error(-20010, 'Document is not saved:' || self.id);
+    end if;
+
+    v_res       :=
+      cdb_utl.
+       make_request(
+        self.conn.get_uri(),
+        'DELETE',
+        self.conn.db_name || '/' || self.id || '?rev' || self.rev);
+    j_res       := json_parser.parser(v_res);
+
+    begin
+      if j_res.get('ok').get_bool() then
+        self.deleted := 1;
+        self.set_rev(j_res.get('rev').get_string());
+      end if;
+    exception
+      when others then
+        if j_res.exist('error') then
+          raise_application_error(
+            -20040,
+            'error: ' || j_res.get('reason').get_string());
+        end if;
+    end;
+  end remove;
 end;
 /
