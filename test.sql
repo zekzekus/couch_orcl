@@ -1,16 +1,16 @@
-declare
+create or replace procedure cdb_test is
   conn           cdb_connection;
   doc1           cdb_document;
   doc2           cdb_document;
 begin
   -- static methods to create a test database
-  cdb_connection.delete_db('http://admin:admin@127.0.0.1:5984/', 'orcl001');
-  cdb_connection.create_db('http://admin:admin@127.0.0.1:5984/', 'orcl001');
+  cdb_connection.delete_db('http://admin:admin@10.81.3.221:5984/', 'orcl001');
+  cdb_connection.create_db('http://admin:admin@10.81.3.221:5984/', 'orcl001');
 
   -- create connection to a specific database
   conn        :=
     cdb_connection(
-      host        => '127.0.0.1',
+      host        => '10.81.3.221',
       port        => 5984,
       db_name     => 'orcl001',
       username    => 'admin',
@@ -33,11 +33,14 @@ begin
   doc1.remove('is_clever');
   -- save again (posts an update request this time)
   doc1.save();
-  
+
   doc2.put('test', 'for delete');
   doc2.save();
 
   -- document deletes itself
   doc2.remove();
+exception
+  when others then
+    cdb_utl.p(utl_http.get_detailed_sqlerrm);
 end;
 /

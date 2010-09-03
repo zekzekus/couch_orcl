@@ -16,11 +16,13 @@
       along with couch_orcl.  If not, see <http://www.gnu.org/licenses/>.
   */
 
-  constructor function cdb_document(conn cdb_connection, id varchar2 := null)
+  constructor function cdb_document(conn cdb_connection, id varchar2 := null)  
     return self as result is
+    super     json := json();
   begin
-    self.json_data := json_value_array();
-    self.check_for_duplicate := 1;
+
+    self.json_data := super.json_data;
+    self.check_for_duplicate := super.check_for_duplicate;
 
     if id is null then
       self.set_id(cdb_utl.get_uuid());
