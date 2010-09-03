@@ -31,7 +31,6 @@
     v_res          utl_http.resp;
     v_val          varchar2(32767);
   begin
-    cdb_utl.p(p_uri||p_url||'-'||p_method);
     v_req       := utl_http.begin_request(p_uri || p_url, p_method);
     utl_http.set_body_charset(v_req, 'UTF-8');
     utl_http.set_header(v_req, 'User-Agent', 'Mozilla/4.0');
@@ -74,7 +73,6 @@
   function db_delete(p_uri varchar2, p_name varchar2) return json as
     v_dumm varchar2(30000):=make_request(p_uri, 'DELETE', p_name);
   begin
-    cdb_utl.p(v_dumm);
     return json_parser.parser(v_dumm);
   end db_delete;  
 end cdb_utl;
