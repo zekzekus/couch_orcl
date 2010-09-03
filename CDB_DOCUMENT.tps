@@ -22,9 +22,10 @@
   conn      cdb_connection,
   deleted   number,
   
+  constructor function cdb_document(id varchar2:=null) return self as result,  
   constructor function cdb_document(conn cdb_connection, id varchar2:=null)
     return self as result,
-  
+    
   member procedure set_id(id varchar2),
   member procedure set_rev(rev varchar2),
 

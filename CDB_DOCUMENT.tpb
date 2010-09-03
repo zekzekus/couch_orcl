@@ -16,11 +16,28 @@
       along with couch_orcl.  If not, see <http://www.gnu.org/licenses/>.
   */
 
-  constructor function cdb_document(conn cdb_connection, id varchar2 := null)  
+  constructor function cdb_document(id varchar2 := null)
     return self as result is
-    super     json := json();
+    super          json := json();
   begin
+    self.json_data := super.json_data;
+    self.check_for_duplicate := super.check_for_duplicate;
 
+    if id is null then
+      self.set_id(cdb_utl.get_uuid());
+    else
+      self.set_id(id);
+    end if;
+
+    self.conn   := null;
+    self.deleted := 0;
+    return;
+  end cdb_document;
+
+  constructor function cdb_document(conn cdb_connection, id varchar2 := null)
+    return self as result is
+    super          json := json();
+  begin
     self.json_data := super.json_data;
     self.check_for_duplicate := super.check_for_duplicate;
 
@@ -74,6 +91,10 @@
     j_res          json;
     j_val          json_value;
   begin
+    if self.conn is null then
+      raise_application_error(-20030, 'Can not save without connection object');
+    end if;
+
     if self.is_deleted() then
       raise_application_error(
         -20020,
@@ -110,6 +131,10 @@
     j_res          json;
     j_val          json_value;
   begin
+    if self.conn is null then
+      raise_application_error(-20030, 'Can not save without connection object');
+    end if;
+
     if self.is_deleted() then
       raise_application_error(
         -20030,

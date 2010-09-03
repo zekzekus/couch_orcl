@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE package cdb_utl as
+﻿CREATE OR REPLACE package cdb_sql as
   /*
       This file is part of couch_orcl.
 
@@ -18,29 +18,12 @@
 
   subtype v2_max is varchar2(32767);
 
-  function make_request(
-    p_uri           varchar2,
-    p_method        varchar2,
-    p_url           varchar := null,
-    p_body          varchar2 := null)
-    return varchar2;
+  type t_doc_list is table of cdb_document
+                        index by pls_integer;
 
-  function server_info(p_uri varchar2)
-    return json;
-
-  function db_info(p_uri varchar2, p_db varchar2)
-    return json;
-
-  function db_create(p_uri varchar2, p_name varchar2)
-    return json;
-
-  function db_delete(p_uri varchar2, p_name varchar2)
-    return json;
-
-  function get_uuid
-    return varchar2;
-
-  procedure p(p_msg in varchar2);
-
-end cdb_utl;
+  procedure sql_to_doc(
+    p_type         in            varchar2,
+    p_sql          in            varchar2,
+    p_result       in out nocopy t_doc_list);
+end cdb_sql;
 /
