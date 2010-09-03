@@ -4,13 +4,13 @@ declare
   doc2           cdb_document;
 begin
   -- static methods to create a test database
-  cdb_connection.delete_db('http://admin:admin@10.81.3.221:5984/', 'orcl001');
-  cdb_connection.create_db('http://admin:admin@10.81.3.221:5984/', 'orcl001');
+  cdb_connection.delete_db('http://admin:admin@127.0.0.1:5984/', 'orcl001');
+  cdb_connection.create_db('http://admin:admin@127.0.0.1:5984/', 'orcl001');
 
   -- create connection to a specific database
   conn        :=
     cdb_connection(
-      host        => '10.81.3.221',
+      host        => '127.0.0.1',
       port        => 5984,
       db_name     => 'orcl001',
       username    => 'admin',
