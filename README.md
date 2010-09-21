@@ -1,6 +1,6 @@
-project name: couch_orcl
-description : A CouchDB Client for Oracle PL/SQL
-author      : Zekeriya KOC <zekzekus@gmail.com>
+# couch_orcl
+### : A CouchDB Client for Oracle PL/SQL
+### : Zekeriya KOC <zekzekus@gmail.com>
 
 * For HTTP operations, it uses Oracle built in package UTL_HTTP
 
