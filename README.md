@@ -5,7 +5,7 @@
 * For HTTP operations, it uses Oracle built in package UTL_HTTP
 
 * For JSON operations it uses PL/JSON. It is really cool stuff.
-  [Here it is](http://sourceforge.net/projects/pljson/)
+  [Here it is](http://sourceforge.net/projects/pljson/).
   I am holding a mirror of the latest release from sourceforge. Not SVN trunk.
   Latest tarball. I had to made a very little modification to the original
   PL/JSON code.
