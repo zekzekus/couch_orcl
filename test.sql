@@ -1,46 +1,31 @@
-create or replace procedure cdb_test is
+create or replace procedure cdb_test_sql is
   conn           cdb_connection;
-  doc1           cdb_document;
-  doc2           cdb_document;
+  dlist          cdb_sql.t_doc_list;
 begin
   -- static methods to create a test database
-  cdb_connection.delete_db('http://admin:admin@10.81.3.221:5984/', 'orcl001');
-  cdb_connection.create_db('http://admin:admin@10.81.3.221:5984/', 'orcl001');
+  --cdb_connection.delete_db('http://admin:admin@10.81.3.221:5984/', 'orcl001');
+  --cdb_connection.create_db('http://admin:admin@10.81.3.221:5984/', 'orcl001');
 
   -- create connection to a specific database
   conn        :=
     cdb_connection(
       host        => '10.81.3.221',
       port        => 5984,
-      db_name     => 'orcl001',
+      db_name     => 'orcl002',
       username    => 'admin',
       password    => 'admin');
   conn.print();
 
-  -- create a couchdb document based on json object. id parameter can be null
-  -- if it is null, document will take its own random guuid.
-  doc1        := cdb_document(conn => conn);
-  doc2        := cdb_document(conn => conn, id => 'record001');
-  doc1.put('name', 'zekeriya');
-  doc1.put('surname', 'koc');
-  doc1.put('age', 27);
-  doc1.put('is_clever', true);
-  -- save document for the first time. (PUT request for first insert)
-  doc1.save();
+  cdb_sql.
+   sql_to_doc(
+    'urun',
+    'select * from bba_to_aymm_urun@aymm where rownum < 31',
+    dlist);
 
-  -- modify document...
-  doc1.put('hasan', 'mahmut');
-  doc1.remove('is_clever');
-  -- save again (posts an update request this time)
-  doc1.save();
-
-  doc2.put('test', 'for delete');
-  doc2.save();
-
-  -- document deletes itself
-  doc2.remove();
-exception
-  when others then
-    cdb_utl.p(utl_http.get_detailed_sqlerrm);
+  for i in dlist.first .. dlist.last loop
+    dlist(i).conn := conn;
+    dlist(i).set_id(dlist(i).get('barcode').get_number());
+    dlist(i).save();
+  end loop;
 end;
 /

@@ -55,6 +55,7 @@
   member procedure set_id(id varchar2) is
   begin
     self.id     := id;
+    self.remove('_id');
     self.put('_id', self.id);
   end set_id;
 

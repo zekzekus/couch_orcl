@@ -27,8 +27,10 @@
     v_deg          v2_max;
     v_ii           integer;
     v_jj           integer;
+    conv           number;
+    read_date      date;
 
-    v_doc         cdb_document;
+    v_doc          cdb_document;
   begin
     sc          := dbms_sql.open_cursor;
     dbms_sql.parse(sc, p_sql, dbms_sql.native);
@@ -50,18 +52,47 @@
     loop
       if dbms_sql.fetch_rows(sc) > 0 then
         v_jj        := v_jj + 1;
-        v_doc      := cdb_document();
+        v_doc       := cdb_document();
+
         if p_type is not null then
           v_doc.put('type', p_type);
         end if;
 
         for v_ii in 1 .. v_qry_col_count loop
-          dbms_sql.column_value(sc, v_ii, v_deg);
-          if v_qry_gender(v_ii).col_name <> 'CIRO' then
-            v_doc.put(lower(v_qry_gender(v_ii).col_name), v_deg);
-          else
-            v_doc.put(lower(v_qry_gender(v_ii).col_name), to_number(trim(v_deg)));
-          end if;
+          case v_qry_gender(v_ii).col_type
+            when 1 then
+              dbms_sql.column_value(sc, v_ii, v_deg);
+
+              if v_deg is null then
+                v_doc.put(lower(v_qry_gender(v_ii).col_name), '');
+              else
+                declare
+                  v              json_value;
+                begin
+                  v           := json_parser.parse_any('"' || v_deg || '"');
+                  v_doc.put(lower(v_qry_gender(v_ii).col_name), v);       --null
+                exception
+                  when others then
+                    v_doc.
+                     put(
+                      lower(v_qry_gender(v_ii).col_name),
+                      json_value.makenull);                               --null
+                end;
+              end if;
+            when 2 then
+              dbms_sql.column_value(sc, v_ii, v_deg);
+              conv        := v_deg;
+              v_doc.put(lower(v_qry_gender(v_ii).col_name), conv);
+            when 12 then
+              dbms_sql.column_value(sc, v_ii, v_deg);
+              read_date   := v_deg;
+              v_doc.
+               put(
+                lower(v_qry_gender(v_ii).col_name),
+                json_ext.to_json_value(read_date));
+            else
+              null;
+          end case;
         end loop;
 
         p_result(v_jj) := v_doc;
