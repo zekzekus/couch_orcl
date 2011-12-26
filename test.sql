@@ -1,16 +1,16 @@
-﻿create or replace procedure cdb_test is
+﻿create or replace procedure zekus.cdb_test is
   conn           cdb_connection;
   doc1           cdb_document;
 begin
   -- static methods to create a test database
-  cdb_connection.delete_db('http://admin:admin@10.81.3.221:5984/', 'orcl001');
-  cdb_connection.create_db('http://admin:admin@10.81.3.221:5984/', 'orcl001');
+  cdb_connection.delete_db('http://admin:admin@zekzekus.iriscouch.com/', 'orcl001');
+  cdb_connection.create_db('http://admin:admin@zekzekus.iriscouch.com/', 'orcl001');
 
   -- create connection to a specific database
   conn        :=
     cdb_connection(
-      host        => '10.81.3.221',
-      port        => 5984,
+      host        => 'zekzekus.iriscouch.com',
+      port        => 80,
       db_name     => 'orcl001',
       username    => 'admin',
       password    => 'admin');

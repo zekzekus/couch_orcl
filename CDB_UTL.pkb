@@ -31,7 +31,7 @@
     v_res          utl_http.resp;
     v_val          varchar2(32767);
   begin
-    v_req       := utl_http.begin_request(p_uri || p_url, p_method);
+    v_req       := utl_http.begin_request(p_uri || p_url, p_method);    
     utl_http.set_body_charset(v_req, 'UTF-8');
     utl_http.set_header(v_req, 'User-Agent', 'Mozilla/4.0');
     utl_http.set_header(v_req, 'Content-Type', 'application/json');
@@ -46,8 +46,8 @@
     when utl_http.end_of_body then
       utl_http.end_response(v_res);
     when others then
-      utl_http.end_response(v_res);
       dbms_output.put_line(sqlerrm);
+      utl_http.end_response(v_res);      
   end make_request;
 
   function server_info(p_uri varchar2)
