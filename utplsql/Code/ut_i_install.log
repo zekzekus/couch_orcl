@@ -1,0 +1,292 @@
+CREATING  TABLES
+Creating  tables  ut_config
+Creating  tables  ut_assertion
+Creating  tables  ut_suite
+Creating  tables  ut_utp
+Creating  tables  ut_package
+Creating  tables  ut_test
+Creating  tables  ut_unittest
+Creating  tables  ut_testcase
+Creating  tables  ut_testprep
+Creating  tables  ut_outcome
+Creating  tables  ut_eq
+Creating  tables  ut_suite_utp
+Creating  tables  ut_argument
+Creating  tables  utr_suite
+Creating  tables  utr_utp
+Creating  tables  utr_unittest
+Creating  tables  utr_testcase
+Creating  tables  utr_outcome
+Creating  tables  utr_error
+Creating  tables  ut_deterministic
+Creating  tables  ut_deterministic_arg
+Creating  tables  ut_receq
+Creating  tables  ut_grid
+CREATING  SEQUENCES
+Creating  sequence  ut_suite_seq
+Creating  sequence  ut_package_seq
+Creating  sequence  ut_utp_seq
+Creating  sequence  ut_test_seq
+Creating  sequence  ut_unittest_seq
+Creating  sequence  ut_testcase_seq
+Creating  sequence  ut_plsql_runnum_seq
+Creating  sequence  ut_assertion_seq
+Creating  sequence  ut_receq_seq
+Creating  sequence  ut_refcursor_results_seq
+CREATING  VIEWS
+Creating  view  utv_result_full
+Creating  view  utv_last_run
+CREATING  PACKAGE HEADERS
+Creating  package specification  ut_config
+Creating  package specification  ut_plsql
+ORA-24344: success with compilation error
+52/26   PLS-00371: at most one declaration for 'DBMAXVC2' is permitted
+52/4    PL/SQL: Declaration ignored
+Creating  package specification  ut_report
+Creating  package specification  ut_outputreporter
+Creating  package specification  ut_filereporter
+Creating  package specification  ut_htmlreporter
+Creating  package specification  ut_result
+Creating  package specification  ut_plsql_util
+Creating  package specification  ut_assert2
+Creating  package specification  ut_assert
+Creating  package specification  ut_plsql2
+Creating  package specification  ut_result2
+Creating  package specification  ut_utp
+Creating  package specification  ut_testprep
+Creating  package specification  ut_unittest
+Creating  package specification  ut_testcase
+Creating  package specification  ut_outcome
+Creating  package specification  ut_suiteutp
+Creating  package specification  ut_suite
+Creating  package specification  ut_package
+Creating  package specification  ut_test
+Creating  package specification  ut_gen
+ORA-24344: success with compilation error
+147/14  PLS-00371: at most one declaration for 'CODELINE_T' is permitted
+146/4   PL/SQL: Declaration ignored
+170/14  PLS-00371: at most one declaration for 'CODELINE_T' is permitted
+169/4   PL/SQL: Declaration ignored
+Creating  package specification  ut_rsuite
+Creating  package specification  ut_rutp
+Creating  package specification  ut_runittest
+Creating  package specification  ut_rtestcase
+Creating  package specification  ut_routcome
+Creating  package specification  ut_rerror
+Creating  package specification  ut_receq
+Creating  package specification  ut_output
+Creating  package specification  ut_filereporter
+Creating  package specification  ut_htmlreporter
+Creating  package specification  ut_outputreporter
+Creating  package specification  ut_report
+Creating  package specification  ut_pipe
+Creating  package specification  ut_utoutput
+Creating  package specification  ut_utreport
+CREATING  PACKAGE BODIES
+Creating  package body  ut_config
+ORA-24344: success with compilation error
+313/41  PLS-00905: object SYS.UTPLSQL is invalid
+313/23  PL/SQL: Item ignored
+318/33  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+318/7   PL/SQL: Statement ignored
+335/19  PLS-00905: object SYS.UTPLSQL is invalid
+335/7   PL/SQL: Statement ignored
+345/42  PLS-00905: object SYS.UTPLSQL is invalid
+345/24  PL/SQL: Item ignored
+350/34  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+350/7   PL/SQL: Statement ignored
+367/19  PLS-00905: object SYS.UTPLSQL is invalid
+367/7   PL/SQL: Statement ignored
+377/46  PLS-00905: object SYS.UTPLSQL is invalid
+377/28  PL/SQL: Item ignored
+383/40  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+383/7   PL/SQL: Statement ignored
+397/19  PLS-00905: object SYS.UTPLSQL is invalid
+397/7   PL/SQL: Statement ignored
+507/37  PLS-00905: object SYS.UTPLSQL is invalid
+507/19  PL/SQL: Item ignored
+Creating  package body  ut_plsql
+ORA-24344: success with compilation error
+777/14  PLS-00103: Encountered the symbol "(" when expecting one of the following:
+          loop
+797/13  PLS-00103: Encountered the symbol "ADDTEST" when expecting one of the following:
+          set
+803/14  PLS-00103: Encountered the symbol ";" when expecting one of the following:
+          . ( , * % & - + / at mod remainder rem <an identifier>
+          <a double-quoted delimited-identifier> <an exponent (**)> as
+          from into || multiset bulk
+Creating  package body  ut_report
+ORA-24344: success with compilation error
+152/11  PLS-00905: object SYS.UTPLSQL is invalid
+152/7   PL/SQL: Statement ignored
+Creating  package body  ut_outputreporter
+ORA-24344: success with compilation error
+227/46  PLS-00905: object SYS.UTPLSQL is invalid
+227/7   PL/SQL: Statement ignored
+Creating  package body  ut_filereporter
+Creating  package body  ut_htmlreporter
+ORA-24344: success with compilation error
+87/19   PLS-00905: object SYS.UTPLSQL is invalid
+87/7    PL/SQL: Statement ignored
+Creating  package body  ut_result
+ORA-24344: success with compilation error
+77/26   PLS-00905: object SYS.UTPLSQL is invalid
+77/10   PL/SQL: Statement ignored
+129/30  PLS-00905: object SYS.UTPLSQL is invalid
+129/7   PL/SQL: Statement ignored
+130/30  PLS-00905: object SYS.UTPLSQL is invalid
+130/7   PL/SQL: Statement ignored
+Creating  package body  ut_plsql_util
+ORA-24344: success with compilation error
+330/14  PLS-00905: object SYS.UTPLSQL is invalid
+330/10  PL/SQL: Statement ignored
+380/14  PLS-00905: object SYS.UTPLSQL is invalid
+380/10  PL/SQL: Statement ignored
+392/14  PLS-00905: object SYS.UTPLSQL is invalid
+392/10  PL/SQL: Statement ignored
+464/11  PLS-00905: object SYS.UTPLSQL is invalid
+464/7   PL/SQL: Statement ignored
+513/11  PLS-00905: object SYS.UTPLSQL is invalid
+513/7   PL/SQL: Statement ignored
+520/11  PLS-00905: object SYS.UTPLSQL is invalid
+520/7   PL/SQL: Statement ignored
+552/11  PLS-00905: object SYS.UTPLSQL is invalid
+552/7   PL/SQL: Statement ignored
+567/11  PLS-00905: object SYS.UTPLSQL is invalid
+567/7   PL/SQL: Statement ignored
+765/11  PLS-00905: object SYS.UTPLSQL is invalid
+765/7   PL/SQL: Statement ignored
+1027/11 PLS-00905: object SYS.UTPLSQL is invalid
+1027/7  PL/SQL: Statement ignored
+Creating  package body  ut_assert2
+ORA-24344: success with compilation error
+143/10  PLS-00905: object SYS.UTPLSQL is invalid
+140/7   PL/SQL: Statement ignored
+308/26  PLS-00905: object SYS.UTPLSQL is invalid
+308/26  PL/SQL: Item ignored
+309/26  PLS-00905: object SYS.UTPLSQL is invalid
+309/26  PL/SQL: Item ignored
+310/26  PLS-00905: object SYS.UTPLSQL is invalid
+310/26  PL/SQL: Item ignored
+323/10  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+323/10  PL/SQL: Statement ignored
+335/7   PLS-00320: the declaration of the type of this expression is incomplete or malformed
+335/7   PL/SQL: Statement ignored
+339/7   PLS-00320: the declaration of the type of this expression is incomplete or malformed
+339/7   PL/SQL: Statement ignored
+359/13  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+357/10  PL/SQL: Statement ignored
+377/36  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+371/13  PL/SQL: Statement ignored
+409/30  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+407/7   PL/SQL: Statement ignored
+Creating  package body  ut_assert
+Creating  package body  ut_plsql2
+ORA-24344: success with compilation error
+173/19  PLS-00905: object SYS.UTPLSQL is invalid
+170/7   PL/SQL: Statement ignored
+254/54  PLS-00905: object SYS.UTPLSQL is invalid
+253/7   PL/SQL: Statement ignored
+272/54  PLS-00905: object SYS.UTPLSQL is invalid
+271/7   PL/SQL: Statement ignored
+318/28  PL/SQL: ORA-06575: Package or function UTPLSQL is in an invalid state
+315/10  PL/SQL: SQL Statement ignored
+359/22  PLS-00364: loop index variable 'UT_REC' use is invalid
+357/16  PL/SQL: Statement ignored
+363/36  PLS-00364: loop index variable 'UT_REC' use is invalid
+363/13  PL/SQL: Statement ignored
+Creating  package body  ut_result2
+ORA-24344: success with compilation error
+72/30   PLS-00905: object SYS.UTPLSQL is invalid
+72/13   PL/SQL: Statement ignored
+Creating  package body  ut_utp
+ORA-24344: success with compilation error
+80/17   PLS-00905: object SYS.UTPLSQL is invalid
+76/7    PL/SQL: Statement ignored
+91/17   PLS-00905: object SYS.UTPLSQL is invalid
+87/7    PL/SQL: Statement ignored
+Creating  package body  ut_testprep
+Creating  package body  ut_unittest
+Creating  package body  ut_testcase
+ORA-24344: success with compilation error
+82/16   PLS-00905: object SYS.UTPLSQL is invalid
+82/8    PL/SQL: Statement ignored
+Creating  package body  ut_outcome
+Creating  package body  ut_suiteutp
+Creating  package body  ut_suite
+ORA-24344: success with compilation error
+103/16  PLS-00905: object SYS.UTPLSQL is invalid
+103/8   PL/SQL: Statement ignored
+179/37  PLS-00905: object SYS.UTPLSQL is invalid
+179/19  PL/SQL: Item ignored
+186/31  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+186/31  PL/SQL: ORA-00904: "L_STATUS": invalid identifier
+185/10  PL/SQL: SQL Statement ignored
+200/10  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+200/10  PL/SQL: Statement ignored
+Creating  package body  ut_package
+ORA-24344: success with compilation error
+92/51   PLS-00905: object SYS.UTPLSQL is invalid
+92/18   PL/SQL: Item ignored
+98/10   PLS-00320: the declaration of the type of this expression is incomplete or malformed
+98/10   PL/SQL: Statement ignored
+101/16  PLS-00905: object SYS.UTPLSQL is invalid
+101/8   PL/SQL: Statement ignored
+109/37  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+109/37  PL/SQL: ORA-00904: "V_SAME": invalid identifier
+104/7   PL/SQL: SQL Statement ignored
+113/19  PLS-00905: object SYS.UTPLSQL is invalid
+113/11  PL/SQL: Statement ignored
+121/37  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+121/37  PL/SQL: ORA-00904: "V_SAME": invalid identifier
+116/10  PL/SQL: SQL Statement ignored
+159/19  PLS-00905: object SYS.UTPLSQL is invalid
+159/16  PL/SQL: Statement ignored
+204/19  PLS-00905: object SYS.UTPLSQL is invalid
+204/16  PL/SQL: Statement ignored
+226/31  PLS-00320: the declaration of the type of this expression is incomplete or malformed
+226/31  PL/SQL: ORA-00904: "V_SAME": invalid identifier
+Creating  package body  ut_test
+ORA-24344: success with compilation error
+82/16   PLS-00905: object SYS.UTPLSQL is invalid
+82/8    PL/SQL: Statement ignored
+Creating  package body  ut_gen
+ORA-24344: success with compilation error
+225/10  PLS-00103: Encountered the symbol "SELECT" when expecting one of the following:
+          begin function package pragma procedure subtype type use
+          <an identifier> <a double-quoted delimited-identifier> form
+          current cursor
+          The symbol "begin" was substituted for "SELECT" to continue.
+227/34  PLS-00103: Encountered the symbol "OVER" when expecting one of the following:
+          . ( ) , * % & | = - + < / > at in is mod remainder not range
+          rem => .. <an exponent (**)> <> or != or ~= >= <= <> and or
+          like LIKE2_ LIKE4_ LIKEC_ as between from using || multiset
+          member SUBMULTISET_
+Creating  package body  ut_rsuite
+Creating  package body  ut_rutp
+Creating  package body  ut_runittest
+Creating  package body  ut_rtestcase
+Creating  package body  ut_routcome
+Maximum grid count exceeded.  Grids will no longer be created.
+Creating  package body  ut_rerror
+Creating  package body  ut_receq
+ORA-24344: success with compilation error
+245/24  PLS-00905: object SYS.UTPLSQL is invalid
+245/10  PL/SQL: Statement ignored
+Creating  package body  ut_output
+Creating  package body  ut_filereporter
+Creating  package body  ut_htmlreporter
+ORA-24344: success with compilation error
+87/19   PLS-00905: object SYS.UTPLSQL is invalid
+87/7    PL/SQL: Statement ignored
+Creating  package body  ut_outputreporter
+ORA-24344: success with compilation error
+227/46  PLS-00905: object SYS.UTPLSQL is invalid
+227/7   PL/SQL: Statement ignored
+Creating  package body  ut_report
+ORA-24344: success with compilation error
+152/11  PLS-00905: object SYS.UTPLSQL is invalid
+152/7   PL/SQL: Statement ignored
+Creating  package body  ut_pipe
+Creating  package body  ut_utoutput
+Creating  package body  ut_utreport
