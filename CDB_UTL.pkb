@@ -25,7 +25,7 @@
     p_uri           varchar2,
     p_method        varchar2,
     p_url           varchar := null,
-    p_body          varchar2 := null)
+    p_body          varchar2 := ' ')
     return varchar2 is
     v_req          utl_http.req;
     v_res          utl_http.resp;
