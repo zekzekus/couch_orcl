@@ -12,3 +12,5 @@
 * Will be implemented on Oracle object types.
 
 * For example usage of current very young version see test.sql file.
+
+* 
