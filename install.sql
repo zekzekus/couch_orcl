@@ -15,7 +15,6 @@
       along with couch_orcl.  If not, see <http://www.gnu.org/licenses/>.
   */
   
-PROMPT -----------------------------------;
 PROMPT -- Compiling objects for COUCH_ORCL --;
 PROMPT -----------------------------------;
 @@uninstall.sql
