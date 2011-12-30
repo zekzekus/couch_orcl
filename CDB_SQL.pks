@@ -19,11 +19,27 @@
   subtype v2_max is varchar2(32767);
 
   type t_doc_list is table of cdb_document
-                        index by pls_integer;
+                       index by pls_integer;
 
-  procedure sql_to_doc(
-    p_type         in            varchar2,
-    p_sql          in            varchar2,
-    p_result       in out nocopy t_doc_list);
+  type g_qry_rec is record(
+    col_name           varchar2(32):= '',
+    col_value          nvarchar2(4000):= '',
+    col_value_number   number:= null,
+    col_value_date     date:= null);
+
+  type g_qry_tab is table of g_qry_rec
+                      index by binary_integer;
+
+  null_as_empty_string   boolean not null := true;                    --varchar2
+  include_dates          boolean not null := true;                        --date
+  include_clobs          boolean not null := true;
+  include_blobs          boolean not null := false;
+
+  /* list with objects */
+  function executeList(
+    stmt       varchar2,
+    bindvar    json default null,
+    cur_num    number default null)
+    return t_doc_list;
 end cdb_sql;
 /

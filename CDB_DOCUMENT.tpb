@@ -18,7 +18,7 @@
 
   constructor function cdb_document(id varchar2 := null)
     return self as result is
-    super          json := json();
+    super   json := json();
   begin
     self.json_data := super.json_data;
     self.check_for_duplicate := super.check_for_duplicate;
@@ -29,14 +29,14 @@
       self.set_id(id);
     end if;
 
-    self.conn   := null;
+    self.conn := null;
     self.deleted := 0;
     return;
   end cdb_document;
 
   constructor function cdb_document(conn cdb_connection, id varchar2 := null)
     return self as result is
-    super          json := json();
+    super   json := json();
   begin
     self.json_data := super.json_data;
     self.check_for_duplicate := super.check_for_duplicate;
@@ -47,21 +47,21 @@
       self.set_id(id);
     end if;
 
-    self.conn   := conn;
+    self.conn := conn;
     self.deleted := 0;
     return;
   end cdb_document;
 
   member procedure set_id(id varchar2) is
   begin
-    self.id     := id;
+    self.id := id;
     self.remove('_id');
     self.put('_id', self.id);
   end set_id;
 
   member procedure set_rev(rev varchar2) is
   begin
-    self.rev    := rev;
+    self.rev := rev;
     self.remove('_rev');
     self.put('_rev', self.rev);
   end set_rev;
@@ -88,9 +88,9 @@
   end is_deleted;
 
   member procedure save is
-    v_res          cdb_utl.v2_max;
-    j_res          json;
-    j_val          json_value;
+    v_res   cdb_utl.v2_max;
+    j_res   json;
+    j_val   json_value;
   begin
     if self.conn is null then
       raise_application_error(-20030, 'Can not save without connection object');
@@ -103,14 +103,14 @@
     end if;
 
     if self.rev is null then
-      v_res       :=
+      v_res :=
         cdb_utl.make_request(
           self.conn.get_uri(),
           'POST',
           self.conn.db_name,
           self.to_char(false));
     else
-      v_res       :=
+      v_res :=
         cdb_utl.make_request(
           self.conn.get_uri(),
           'PUT',
@@ -118,19 +118,26 @@
           self.to_char(false));
     end if;
 
-    j_res       := json_parser.parser(v_res);
+    j_res := json_parser.parser(v_res);
 
-    if j_res.get('ok').get_bool() then
-      self.set_rev(j_res.get('rev').get_string());
-    end if;
-
-    cdb_utl.p(v_res);
+    begin
+      if j_res.get('ok').get_bool() then
+        self.set_rev(j_res.get('rev').get_string());
+      end if;
+    exception
+      when others then
+        if j_res.exist('error') then
+          raise_application_error(
+            -20040,
+            'error: ' || j_res.get('reason').get_string());
+        end if;
+    end;
   end save;
 
   member procedure remove is
-    v_res          cdb_utl.v2_max;
-    j_res          json;
-    j_val          json_value;
+    v_res   cdb_utl.v2_max;
+    j_res   json;
+    j_val   json_value;
   begin
     if self.conn is null then
       raise_application_error(-20030, 'Can not save without connection object');
@@ -146,13 +153,13 @@
       raise_application_error(-20010, 'Document is not saved:' || self.id);
     end if;
 
-    v_res       :=
+    v_res :=
       cdb_utl.
        make_request(
         self.conn.get_uri(),
         'DELETE',
         self.conn.db_name || '/' || self.id || '?rev=' || self.rev);
-    j_res       := json_parser.parser(v_res);
+    j_res := json_parser.parser(v_res);
 
     begin
       if j_res.get('ok').get_bool() then
@@ -167,8 +174,6 @@
             'error: ' || j_res.get('reason').get_string());
         end if;
     end;
-
-    cdb_utl.p(j_res.to_char(false));
   end remove;
 end;
 /
