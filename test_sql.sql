@@ -1,4 +1,4 @@
-create or replace procedure cdb_test_sql is
+create or replace procedure cdb_test_sql_1 is
   conn    cdb_connection;
   dlist   cdb_sql.t_doc_list;
 begin
@@ -19,15 +19,12 @@ begin
       password   => 'admin');
   conn.print();
 
-  dlist :=
-    cdb_sql.
-     executeList(
-      'select * from tmp001');
+  dlist := cdb_sql.executeList('select * from tmp001');
 
   for i in dlist.first .. dlist.last loop
     dlist(i).conn := conn;
-    dlist(i).set_id(dlist(i).get('BARCODE').get_number());
-    dlist(i).put('type_', 'barkod');
+    dlist(i).set_id(dlist(i).get('barcode').get_number());
+    dlist(i).put('type_', 'item');
     dlist(i).save();
   end loop;
 end;

@@ -115,40 +115,40 @@
 
             if (l_val is null) then
               if (null_as_empty_string) then
-                inner_obj.put(l_dtbl(i).col_name, ''); --treatet as emptystring?
+                inner_obj.put(lower(l_dtbl(i).col_name), ''); --treatet as emptystring?
               else
-                inner_obj.put(l_dtbl(i).col_name, json_value.makenull);   --null
+                inner_obj.put(lower(l_dtbl(i).col_name), json_value.makenull);   --null
               end if;
             else
-              inner_obj.put(l_dtbl(i).col_name, json_value(l_val));       --null
+              inner_obj.put(lower(l_dtbl(i).col_name), json_value(l_val));       --null
             end if;
-          --dbms_output.put_line(l_dtbl(i).col_name||' --> '||l_val||'varchar2' ||l_dtbl(i).col_type);
+          --dbms_output.put_line(lower(l_dtbl(i).col_name)||' --> '||l_val||'varchar2' ||l_dtbl(i).col_type);
           --handling number types
           when l_dtbl(i).col_type = 2 then                             -- number
             dbms_sql.column_value(l_cur, i, l_val);
             conv := l_val;
-            inner_obj.put(l_dtbl(i).col_name, conv);
-          -- dbms_output.put_line(l_dtbl(i).col_name||' --> '||l_val||'number ' ||l_dtbl(i).col_type);
+            inner_obj.put(lower(l_dtbl(i).col_name), conv);
+          -- dbms_output.put_line(lower(l_dtbl(i).col_name)||' --> '||l_val||'number ' ||l_dtbl(i).col_type);
           when l_dtbl(i).col_type = 12 then                              -- date
             if (include_dates) then
               dbms_sql.column_value(l_cur, i, read_date);
               inner_obj.
-               put(l_dtbl(i).col_name, json_ext.to_json_value(read_date));
+               put(lower(l_dtbl(i).col_name), json_ext.to_json_value(read_date));
             end if;
-          --dbms_output.put_line(l_dtbl(i).col_name||' --> '||l_val||'date ' ||l_dtbl(i).col_type);
+          --dbms_output.put_line(lower(l_dtbl(i).col_name)||' --> '||l_val||'date ' ||l_dtbl(i).col_type);
           when l_dtbl(i).col_type = 112 then                              --clob
             if (include_clobs) then
               dbms_sql.column_value(l_cur, i, read_clob);
-              inner_obj.put(l_dtbl(i).col_name, json_value(read_clob));
+              inner_obj.put(lower(l_dtbl(i).col_name), json_value(read_clob));
             end if;
           when l_dtbl(i).col_type = 113 then                              --blob
             if (include_blobs) then
               dbms_sql.column_value(l_cur, i, read_blob);
 
               if (dbms_lob.getlength(read_blob) > 0) then
-                inner_obj.put(l_dtbl(i).col_name, json_ext.encode(read_blob));
+                inner_obj.put(lower(l_dtbl(i).col_name), json_ext.encode(read_blob));
               else
-                inner_obj.put(l_dtbl(i).col_name, json_value.makenull);
+                inner_obj.put(lower(l_dtbl(i).col_name), json_value.makenull);
               end if;
             end if;
           else
