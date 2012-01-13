@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE type cdb_connection as object (
+﻿CREATE OR REPLACE type ZEKUS.cdb_connection as object (
 /*
     This file is part of couch_orcl.
 

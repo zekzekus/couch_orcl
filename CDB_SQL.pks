@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE package cdb_sql as
+﻿CREATE OR REPLACE package ZEKUS.cdb_sql as
   /*
       This file is part of couch_orcl.
 

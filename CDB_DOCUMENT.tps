@@ -1,4 +1,4 @@
-﻿create or replace type cdb_document under json
+﻿CREATE OR REPLACE type ZEKUS.cdb_document under json
 (
   /*
       This file is part of couch_orcl.

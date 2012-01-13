@@ -1,4 +1,4 @@
-﻿create or replace type body cdb_document as
+﻿CREATE OR REPLACE type body ZEKUS.cdb_document as
   /*
       This file is part of couch_orcl.
 

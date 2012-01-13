@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE package cdb_utl as
+﻿CREATE OR REPLACE package ZEKUS.cdb_utl as
   /*
       This file is part of couch_orcl.
 
@@ -18,12 +18,28 @@
 
   subtype v2_max is varchar2(32767);
 
+  type t_container is record(content clob);
+
   function make_request(
-    p_uri           varchar2,
-    p_method        varchar2,
-    p_url           varchar := null,
-    p_body          varchar2 := ' ')
+    p_uri       varchar2,
+    p_method    varchar2,
+    p_url       varchar := null,
+    p_body      varchar2 := ' ')
     return varchar2;
+
+  function make_request_large(
+    p_uri       varchar2,
+    p_method    varchar2,
+    p_url       varchar := null,
+    p_body      t_container)
+    return t_container;
+
+  procedure make_request_large(
+    p_uri                    varchar2,
+    p_method                 varchar2,
+    p_url                    varchar := null,
+    p_body     in out nocopy t_container,
+    p_result   in out nocopy t_container);
 
   function server_info(p_uri varchar2)
     return json;
@@ -41,6 +57,5 @@
     return varchar2;
 
   procedure p(p_msg in varchar2);
-
 end cdb_utl;
 /
