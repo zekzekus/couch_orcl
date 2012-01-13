@@ -143,8 +143,6 @@
     c_max_chunk   constant number := 32767;
     v_chunk_data           varchar2(32767);
     v_start                number := 1;
-    --v_return               t_container;
-    --v_body                 t_container;
   begin
     if p_body.content is null then
       p_body.content := ' ';
@@ -160,23 +158,14 @@
      set_header(v_req, 'Content-Type', 'application/json; charset=utf-8');
     utl_http.set_header(v_req, 'Connection', 'keep-alive');
 
-    --if v_clob_length > c_max_chunk then
     utl_http.set_header(v_req, 'Transfer-Encoding', 'chunked');
 
-    --else
-    --utl_http.set_header(v_req, 'Content-Length', v_clob_length);
-    --end if;
-
-    --if v_clob_length <= c_max_chunk then
-    --utl_http.write_text(v_req, v_body.content);
-    --else
     while v_start < v_clob_length loop
       v_chunk_data := dbms_lob.substr(p_body.content, c_max_chunk, v_start);
       utl_http.write_text(v_req, v_chunk_data);
       v_start := v_start + c_max_chunk;
     end loop;
 
-    --end if;
     v_res := utl_http.get_response(v_req);
 
     begin
@@ -188,15 +177,11 @@
       when utl_http.end_of_body then
         utl_http.end_response(v_res);
     end;
-
-    --utl_http.end_response(v_res);
-
   exception
     when utl_http.end_of_body then
       utl_http.end_response(v_res);
     when others then
       dbms_output.put_line(sqlerrm);
-      --utl_http.end_response(v_res);
       raise;
   end make_request_large;
 

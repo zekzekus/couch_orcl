@@ -117,10 +117,10 @@
               if (null_as_empty_string) then
                 inner_obj.put(lower(l_dtbl(i).col_name), ''); --treatet as emptystring?
               else
-                inner_obj.put(lower(l_dtbl(i).col_name), json_value.makenull);   --null
+                inner_obj.put(lower(l_dtbl(i).col_name), json_value.makenull); --null
               end if;
             else
-              inner_obj.put(lower(l_dtbl(i).col_name), json_value(l_val));       --null
+              inner_obj.put(lower(l_dtbl(i).col_name), json_value(l_val)); --null
             end if;
           --dbms_output.put_line(lower(l_dtbl(i).col_name)||' --> '||l_val||'varchar2' ||l_dtbl(i).col_type);
           --handling number types
@@ -133,7 +133,9 @@
             if (include_dates) then
               dbms_sql.column_value(l_cur, i, read_date);
               inner_obj.
-               put(lower(l_dtbl(i).col_name), json_ext.to_json_value(read_date));
+               put(
+                lower(l_dtbl(i).col_name),
+                json_ext.to_json_value(read_date));
             end if;
           --dbms_output.put_line(lower(l_dtbl(i).col_name)||' --> '||l_val||'date ' ||l_dtbl(i).col_type);
           when l_dtbl(i).col_type = 112 then                              --clob
@@ -146,7 +148,8 @@
               dbms_sql.column_value(l_cur, i, read_blob);
 
               if (dbms_lob.getlength(read_blob) > 0) then
-                inner_obj.put(lower(l_dtbl(i).col_name), json_ext.encode(read_blob));
+                inner_obj.
+                 put(lower(l_dtbl(i).col_name), json_ext.encode(read_blob));
               else
                 inner_obj.put(lower(l_dtbl(i).col_name), json_value.makenull);
               end if;
@@ -162,5 +165,184 @@
     dbms_sql.close_cursor(l_cur);
     return outer_list;
   end executeList;
+
+  function jj(p_col in varchar2, p_val in varchar2 := null)
+    return varchar2 is
+  begin
+    if p_val is null then
+      if (null_as_empty_string) then
+        return '"' || lower(p_col) || '":"",';
+      else
+        return '"' || lower(p_col) || '":null,';
+      end if;
+    else
+      return '"' || lower(p_col) || '":"' || p_val || '",';
+    end if;
+  end jj;
+
+  function jj(p_col in varchar2, p_val in clob := null)
+    return varchar2 is
+  begin
+    if p_val is null then
+      if (null_as_empty_string) then
+        return '"' || lower(p_col) || '":"",';
+      else
+        return '"' || lower(p_col) || '":null,';
+      end if;
+    else
+      return '"' || lower(p_col) || '":"' || p_val || '",';
+    end if;
+  end jj;
+
+  function jj(p_col in varchar2, p_val in number)
+    return varchar2 is
+  begin
+    if p_val is null then
+      if (null_as_empty_string) then
+        return '"' || lower(p_col) || '":"",';
+      else
+        return '"' || lower(p_col) || '":null,';
+      end if;
+    else
+      return '"' || lower(p_col) || '":' || p_val || ',';
+    end if;
+  end jj;
+
+  function jj(p_col in varchar2, p_val in date)
+    return varchar2 is
+  begin
+    if p_val is null then
+      if (null_as_empty_string) then
+        return '"' || lower(p_col) || '":"",';
+      else
+        return '"' || lower(p_col) || '":null,';
+      end if;
+    else
+      return    '"'
+             || lower(p_col)
+             || '":"'
+             || to_char(p_val, 'YYYY.MM.DD hh24:mi:ss')
+             || '",';
+    end if;
+  end jj;
+
+  procedure sql_for_bulk_api(
+    stmt                    varchar2,
+    bindvar                 json default null,
+    cur_num                 number default null,
+    p_data    in out nocopy cdb_utl.tab_container) is
+    l_cur       number;
+    l_dtbl      dbms_sql.desc_tab;
+    l_cnt       number;
+    l_status    number;
+    l_val       varchar2(4000);
+    v_row       cdb_utl.t_container;
+    v_data      cdb_utl.t_container;
+    conv        number;
+    read_date   date;
+    read_clob   clob;
+    read_blob   blob;
+    col_type    number;
+    v_count     number;
+    v_s2        number := 0;
+  begin
+    if (cur_num is not null) then
+      l_cur := cur_num;
+    else
+      l_cur := dbms_sql.open_cursor;
+      dbms_sql.parse(l_cur, stmt, dbms_sql.native);
+
+      if (bindvar is not null) then
+        bind_json(l_cur, bindvar);
+      end if;
+    end if;
+
+    dbms_sql.describe_columns(l_cur, l_cnt, l_dtbl);
+
+    for i in 1 .. l_cnt loop
+      col_type := l_dtbl(i).col_type;
+
+      if (col_type = 12) then
+        dbms_sql.define_column(l_cur, i, read_date);
+      elsif (col_type = 112) then
+        dbms_sql.define_column(l_cur, i, read_clob);
+      elsif (col_type = 113) then
+        dbms_sql.define_column(l_cur, i, read_blob);
+      elsif (col_type in (1, 2, 96)) then
+        dbms_sql.define_column(
+          l_cur,
+          i,
+          l_val,
+          4000);
+      end if;
+    end loop;
+
+    if (cur_num is null) then
+      l_status := dbms_sql.execute(l_cur);
+    end if;
+
+    v_count := 0;
+
+    --loop through rows
+    while (dbms_sql.fetch_rows(l_cur) > 0) loop
+      v_count := v_count + 1;
+      v_row.content := '{';                                  --init for each row
+
+      --loop through columns
+      for i in 1 .. l_cnt loop
+        case true
+          --handling string types
+          when l_dtbl(i).col_type in (1, 96) then                    -- varchar2
+            dbms_sql.column_value(l_cur, i, l_val);
+
+            v_row.content := v_row.content || jj(l_dtbl(i).col_name, l_val);
+          --handling number types
+          when l_dtbl(i).col_type = 2 then                             -- number
+            dbms_sql.column_value(l_cur, i, l_val);
+            conv := l_val;
+            v_row.content := v_row.content || jj(l_dtbl(i).col_name, conv);
+          when l_dtbl(i).col_type = 12 then                              -- date
+            if (include_dates) then
+              dbms_sql.column_value(l_cur, i, read_date);
+              v_row.content :=
+                v_row.content || jj(l_dtbl(i).col_name, read_date);
+            end if;
+          when l_dtbl(i).col_type = 112 then                              --clob
+            if (include_clobs) then
+              dbms_sql.column_value(l_cur, i, read_clob);
+              v_row.content := v_row.content || jj(l_dtbl(i).col_name, l_val);
+            end if;
+          else
+            null;
+        end case;
+      end loop;
+
+      v_row.content := rtrim(v_row.content, ',');
+      v_row.content := concat(v_row.content, '}');
+
+      if v_count < 1000 then
+        v_data.content := v_data.content || v_row.content || ',';
+      else
+        v_data.content := concat(to_clob('{"docs":['), v_data.content);
+        v_data.content := concat(v_data.content, v_row.content);
+        v_data.content := concat(v_data.content, to_clob(']}'));
+        v_s2 := v_s2 + 1;
+        p_data(v_s2) := v_data;
+        v_count := 0;
+        v_data.content := null;
+      end if;
+    end loop;
+
+    if v_data.content is not null then
+      v_data.content := concat(to_clob('{"docs":['), v_data.content);
+      v_data.content := rtrim(v_data.content, ',');
+      v_data.content := concat(v_data.content, to_clob(']}'));
+      p_data(v_s2 + 1) := v_data;
+    end if;
+
+    v_data.content := null;
+
+    dbms_sql.close_cursor(l_cur);
+  end sql_for_bulk_api;
 end cdb_sql;
 /

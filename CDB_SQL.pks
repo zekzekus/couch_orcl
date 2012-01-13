@@ -30,7 +30,7 @@
   type g_qry_tab is table of g_qry_rec
                       index by binary_integer;
 
-  null_as_empty_string   boolean not null := true;                    --varchar2
+  null_as_empty_string   boolean not null := false;                    --varchar2
   include_dates          boolean not null := true;                        --date
   include_clobs          boolean not null := true;
   include_blobs          boolean not null := false;
@@ -41,5 +41,11 @@
     bindvar    json default null,
     cur_num    number default null)
     return t_doc_list;
+
+  procedure sql_for_bulk_api(
+    stmt                   varchar2,
+    bindvar                 json default null,
+    cur_num                 number default null,
+    p_data    in out nocopy cdb_utl.tab_container);
 end cdb_sql;
 /

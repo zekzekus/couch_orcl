@@ -20,6 +20,9 @@
 
   type t_container is record(content clob);
 
+  type tab_container is table of t_container
+                          index by binary_integer;
+
   function make_request(
     p_uri       varchar2,
     p_method    varchar2,
