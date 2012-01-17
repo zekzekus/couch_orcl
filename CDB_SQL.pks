@@ -42,10 +42,13 @@
     cur_num    number default null)
     return t_doc_list;
 
-  procedure sql_for_bulk_api(
+  procedure sql_to_doc_bulk(
     stmt                   varchar2,
     bindvar                 json default null,
     cur_num                 number default null,
     p_data    in out nocopy cdb_utl.tab_container);
+    
+  procedure send_bulk_docs(p_sql in varchar2, p_binds in json default null);    
+          
 end cdb_sql;
 /
