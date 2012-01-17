@@ -20,3 +20,7 @@
     * CDB_SQL (operations with SQL statements)
         * it can return a collection of CDB_DOCUMENT objects from the results of an SQL query. (a little memory expensive)
         * it can send large result sets to couchdb using bulk document api. ready for really large result sets (tested with 1.5 million docs).
+ 
+### Usage examples
+
+* TODO
