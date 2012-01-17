@@ -60,7 +60,6 @@
     return varchar2;
 
   procedure p(p_msg in varchar2);
-
-  procedure handle_bulk_docs(p_response in t_container);
+  
 end cdb_utl;
 /

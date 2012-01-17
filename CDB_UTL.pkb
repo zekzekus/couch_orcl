@@ -214,50 +214,6 @@
     v_dumm   varchar2(30000) := make_request(p_uri, 'DELETE', p_name);
   begin
     return json_parser.parser(v_dumm);
-  end db_delete;
-
-  procedure insert_couch_status(p_json in out json) as
-  begin
-    insert into couch_status
-         values (
-                  p_json.get('id').get_string(),
-                  p_json.get('rev').get_string(),
-                  -1,
-                  p_json.get('reason').get_string());
-  exception
-    when dup_val_on_index then
-      update couch_status
-         set rev = p_json.get('rev').get_string(),
-             errormsg = p_json.get('reason').get_string(),
-             status = -1
-       where id = p_json.get('id').get_string();
-  end;
-
-  procedure handle_bulk_docs(p_response in t_container) is
-    v_json_value   json_value;
-    v_json_list    json_list;
-    v_json         json;
-  begin
-    v_json_value := json_parser.parse_any(p_response.content);
-
-    case v_json_value.get_type()
-      when 'object' then
-        v_json := json(p_response.content);
-        raise_application_error(
-          -20010,
-          'hata:' || substr(v_json.to_char(), 1, 1000));
-      when 'array' then
-        v_json_list := json_list(p_response.content);
-
-        for i in 1 .. v_json_list.count loop
-          v_json := json(v_json_list.get(i));
-          insert_couch_status(v_json);
-        end loop;
-
-        commit;
-      else
-        raise_application_error(-20011, 'type not supported');
-    end case;
-  end handle_bulk_docs;
+  end db_delete;  
 end cdb_utl;
 /

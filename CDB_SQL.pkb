@@ -16,7 +16,11 @@
       along with couch_orcl.  If not, see <http://www.gnu.org/licenses/>.
   */
 
-  procedure send_bulk_docs(p_sql in varchar2, p_binds in json default null) is
+  procedure send_bulk_docs(
+    p_sql     in            varchar2,
+    p_binds   in            json default null,
+    p_conn    in            cdb_connection,
+    p_res     in out nocopy cdb_utl.t_container) is
     v_res    cdb_utl.t_container;
     a_data   cdb_utl.tab_container;
   begin
@@ -29,13 +33,12 @@
 
     for i in a_data.first .. a_data.last loop
       cdb_utl.make_request_large(
-        'http://10.81.2.100:5984/',
+        p_conn.get_uri(),
         'POST',
-        'dbmerkez/_bulk_docs',
+        p_conn.db_name || '/_bulk_docs',
         a_data(i),
         v_res);
-
-      cdb_utl.handle_bulk_docs(v_res);
+      p_res.content := p_res.content || v_res.content;
     end loop;
   end send_bulk_docs;
 
